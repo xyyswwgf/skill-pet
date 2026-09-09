@@ -4,7 +4,7 @@
 
 The expanded experience has two layers.
 
-1. The outer window is a restrained translucent backdrop. It confirms that Skill Pet is active while keeping the desktop visible.
+1. The outer window is fully transparent so it never dims or covers the desktop.
 2. The centered content deck is the reading surface. It keeps titles, search, and skill groups aligned on one stable column, independent of which corner contains the SP ball.
 
 The SP ball is a persistent window control, not content. When the panel opens from the top, the deck reserves vertical space above itself; when it opens from the bottom, it reserves vertical space below. No horizontal content shift occurs.
