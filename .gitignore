@@ -1,0 +1,14 @@
+# JavaScript dependencies and logs
+node_modules/
+npm-debug.log*
+
+# Tauri/Rust build output
+src-tauri/target/
+
+# Local tooling and OS metadata
+.DS_Store
+.idea/
+.vscode/
+
+# Release artifacts are generated locally or by GitHub Releases.
+*.zip

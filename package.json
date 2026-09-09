@@ -1,0 +1,21 @@
+{
+  "name": "skill-pet",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Local-only Codex skills browser with a compact floating pet launcher.",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "preview": "node scripts/server.mjs --workspace .. --port 4174",
+    "start:web": "node scripts/server.mjs",
+    "check:web": "node scripts/server.mjs --check"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

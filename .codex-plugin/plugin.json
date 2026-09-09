@@ -1,0 +1,37 @@
+{
+  "name": "skill-pet",
+  "version": "0.1.0",
+  "description": "Local-only viewer for Codex skills with a compact pet launcher.",
+  "author": {
+    "name": "Local developer"
+  },
+  "homepage": "https://github.com/pc-style/skill-view",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "skills",
+    "plugin",
+    "viewer",
+    "local-first"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Skill Pet",
+    "shortDescription": "Browse installed Codex skills",
+    "longDescription": "Skill Pet starts a local-only skills browser. It scans personal, project, and plugin-distributed Codex SKILL.md files, then shows descriptions, source, file paths, and usage instructions behind a compact floating pet launcher.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "brandColor": "#2563EB",
+    "composerIcon": "./assets/skill-pet.svg",
+    "logo": "./assets/skill-pet.svg",
+    "defaultPrompt": [
+      "Open my Skill Pet skills browser",
+      "Show me installed Codex skills",
+      "Help me find a skill for this task"
+    ]
+  }
+}
