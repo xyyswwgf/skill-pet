@@ -9,6 +9,13 @@ The expanded experience has two layers.
 
 The SP ball is a persistent window control, not content. When the panel opens from the top, the deck reserves vertical space above itself; when it opens from the bottom, it reserves vertical space below. No horizontal content shift occurs.
 
+## Brand Asset
+
+- `assets/skill-pet-icon.png` is the canonical 512px RGBA brand asset for the Codex plugin.
+- `web/skill-pet-icon.png` is the floating-ball asset bundled with the WebView.
+- `src-tauri/icons/icon.png` is the matching macOS application icon source.
+- The collapsed floating ball renders only the transparent PNG and uses reduced opacity until hover or keyboard focus.
+
 ## Information Hierarchy
 
 1. Header: skill count and manual refresh.

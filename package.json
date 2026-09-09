@@ -1,6 +1,6 @@
 {
   "name": "skill-pet",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "type": "module",
   "description": "Local-only Codex skills browser with a compact floating pet launcher.",

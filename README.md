@@ -2,7 +2,7 @@
 
 一个 macOS 本地悬浮工具，用于查看你后续添加到 Codex 的 skills。它不执行 skill，也不会把本地 skills 或内容上传到任何服务器。
 
-![Skill Pet floating ball](assets/skill-pet.svg)
+![Skill Pet floating ball](assets/skill-pet-icon.png)
 
 ## 功能
 
@@ -26,7 +26,7 @@
 ## 从 GitHub 源码运行
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/skill-pet.git
+git clone https://github.com/xyyswwgf/skill-pet.git
 cd skill-pet
 npm install
 npm run dev
@@ -52,7 +52,7 @@ src-tauri/target/release/bundle/macos/Skill Pet.app
 
 ## 从源码 ZIP 运行
 
-1. 在 GitHub Releases 下载 `Skill-Pet-*-source.zip`。
+1. 在 [GitHub Releases](https://github.com/xyyswwgf/skill-pet/releases) 下载最新的 `Skill-Pet-*-source.zip`。
 2. 解压后在终端进入项目目录。
 3. 按上面的“构建本地 App”命令执行。
 
@@ -71,7 +71,7 @@ npm run preview
 Skill Pet 只读扫描本机以下来源：
 
 - `~/.codex/skills`
-- 当前项目中的 `.codex/skills` 或 `.agents/skills`
+- 当前工作区及其子目录中的 `.agents/skills`
 - `~/.codex/plugins/cache` 中非 OpenAI 内置市场的插件
 
 它不会：
@@ -95,16 +95,19 @@ Skill Pet 只读扫描本机以下来源：
 
 ## 发布到 GitHub
 
-仓库维护者可创建一个公开仓库并推送：
+当前公开仓库：<https://github.com/xyyswwgf/skill-pet>。
+
+维护者发布新版本时：
 
 ```bash
-git init
 git add .
-git commit -m "Initial release"
-gh repo create skill-pet --public --source=. --remote=origin --push
+git commit -m "Release vX.Y.Z"
+git push origin main
+git archive --format=zip --prefix=skill-pet-X.Y.Z/ --output=Skill-Pet-X.Y.Z-source.zip HEAD
+gh release create vX.Y.Z Skill-Pet-X.Y.Z-source.zip --title "Skill Pet vX.Y.Z" --generate-notes
 ```
 
-随后在 GitHub Releases 上传 `Skill-Pet-*-source.zip`。正式向他人分发 `.app` 前，建议补充 Developer ID 签名和 Apple notarization。
+正式向他人分发 `.app` 前，建议补充 Developer ID 签名和 Apple notarization。
 
 ## License
 

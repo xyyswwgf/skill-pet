@@ -24,7 +24,7 @@ Skill Pet is a macOS-only, local-only Tauri utility for viewing skills that a us
 
 - Transparency relies on macOS private WebKit APIs because WKWebView does not provide a stable public transparent-background API. This makes the App Store an unsupported distribution channel.
 - Skill roots and marketplace layout are discovered from local Codex conventions. Future Codex layout changes may require scanner updates.
-- The app refreshes its inventory when opened; it does not currently run a filesystem watcher while collapsed.
+- The app refreshes its inventory when opened or when the user selects Refresh; it does not currently run a filesystem watcher while collapsed.
 - No scheduled work, email, SEO surface, embedded agent, authentication, database, or external provider exists.
 
 ## Related Documents

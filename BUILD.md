@@ -15,7 +15,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ## Development
 
 ```bash
-cd "/Users/xy/Documents/ChatGPT/skills插件开发/skill-pet"
+cd skill-pet
 npm install
 npm run dev
 ```
@@ -23,7 +23,7 @@ npm run dev
 ## Package
 
 ```bash
-cd "/Users/xy/Documents/ChatGPT/skills插件开发/skill-pet"
+cd skill-pet
 npm install
 npm run build
 ```
@@ -44,7 +44,7 @@ src-tauri/target/release/bundle/
 ## Preview Without Rust
 
 ```bash
-cd "/Users/xy/Documents/ChatGPT/skills插件开发/skill-pet"
+cd skill-pet
 npm run preview
 ```
 

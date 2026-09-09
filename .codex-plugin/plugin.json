@@ -1,6 +1,6 @@
 {
   "name": "skill-pet",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Local-only viewer for Codex skills with a compact pet launcher.",
   "author": {
     "name": "Local developer"
