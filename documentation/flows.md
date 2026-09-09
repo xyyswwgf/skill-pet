@@ -27,6 +27,13 @@ Trust boundary: WebView to Rust command, then Rust to local filesystem. There is
 2. Rust clamps the target window position to the current monitor work area.
 3. A click invokes `set_panel_mode`.
 4. Rust selects the side with the most available horizontal and vertical work area, records the matching corner anchor, resizes the panel, and preserves the ball coordinate.
-5. The WebView applies the returned corner class so the SP button remains at that same corner.
+5. The WebView applies the returned corner class and reserves that corner as a content-safe zone, so the SP button cannot cover the title, search field, or list.
+6. `Escape` clears an active search first; pressing it again collapses the panel.
+
+## Refresh The Inventory
+
+1. Opening the panel scans the local skill roots again.
+2. The user can select “刷新” to trigger the same read-only scan without collapsing the panel.
+3. The interface displays a scanning state, an actionable retry state on failure, and an explicit empty state when no personal skills match.
 
 Trust boundary: WebView to local window-management commands. No filesystem or network side effect occurs in this flow.

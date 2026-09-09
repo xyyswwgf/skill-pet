@@ -2,12 +2,17 @@ const state = {
   data: null,
   query: '',
   selected: null,
+  loading: false,
+  error: null,
+  lastUpdated: null,
 }
 
 const list = document.querySelector('#list')
 const search = document.querySelector('#search')
 const stats = document.querySelector('#stats')
 const pet = document.querySelector('#pet')
+const refresh = document.querySelector('#refresh')
+const status = document.querySelector('#status')
 let tauriInvoke = null
 let pointerState = null
 let didDrag = false
@@ -241,12 +246,20 @@ function displayGroups() {
 }
 
 function renderStats() {
-  const personalTotal = state.data.counts.personalTotal ?? state.data.counts.personal_total ?? 0
-  const chips = [`${personalTotal} 个已添加到 Codex`, '按添加/更新时间倒序']
+  const personalTotal = state.data?.counts.personalTotal ?? state.data?.counts.personal_total ?? 0
+  const chips = [`${personalTotal} 个 skills`, '按更新时间排序']
   stats.innerHTML = chips.map((chip) => `<span class="chip">${escapeHtml(chip)}</span>`).join('')
 }
 
 function renderList() {
+  if (state.loading && !state.data) {
+    list.innerHTML = '<div class="empty-state"><strong>正在读取本机 skills</strong><span>首次扫描可能需要一点时间。</span></div>'
+    return
+  }
+  if (state.error) {
+    list.innerHTML = `<div class="error-state"><strong>无法读取 skills</strong><span>${escapeHtml(state.error)}</span><button class="retry" type="button" data-action="retry">重新扫描</button></div>`
+    return
+  }
   const groups = displayGroups()
   if (!state.selected && groups[0]) state.selected = groups[0].key
   list.innerHTML = groups.map((group) => {
@@ -259,7 +272,7 @@ function renderList() {
     `).join('')
     return `
     <section class="module ${expanded ? 'open' : ''}">
-      <button class="item ${expanded ? 'active' : ''}" data-id="${escapeHtml(group.key)}" type="button">
+      <button class="item ${expanded ? 'active' : ''}" data-id="${escapeHtml(group.key)}" type="button" aria-expanded="${expanded}">
         <strong>${escapeHtml(group.label)} <em>${escapeHtml(skillNamesPreview(group))}</em></strong>
         <p>${escapeHtml(groupSummary(group))}</p>
         <small>${group.skills.length} 个 skills</small>
@@ -267,18 +280,24 @@ function renderList() {
       ${expanded ? `<ul class="inline-skills">${skills}</ul>` : ''}
     </section>
   `
-  }).join('') || '<div class="item"><strong>No skills found</strong><p>Try a different search.</p></div>'
-}
-
-function renderDetail() {
+  }).join('') || `<div class="empty-state"><strong>${state.query ? '没有匹配的 skills' : '还没有可显示的 skills'}</strong><span>${state.query ? '尝试换一个关键词。' : '安装或添加 skill 后，点击刷新即可读取。'}</span></div>`
 }
 
 function render() {
   renderStats()
   renderList()
+  refresh.disabled = state.loading
+  refresh.textContent = state.loading ? '扫描中' : '刷新'
+  if (state.loading) status.textContent = '正在扫描本机 Codex skills...'
+  else if (state.error) status.textContent = '读取失败，可重新扫描。'
+  else if (state.lastUpdated) status.textContent = '仅读取本机内容；展开时会自动刷新。'
 }
 
 list.addEventListener('click', (event) => {
+  if (event.target.closest('[data-action="retry"]')) {
+    refreshSkills()
+    return
+  }
   const button = event.target.closest('button[data-id]')
   if (!button) return
   state.selected = button.dataset.id
@@ -289,6 +308,22 @@ search.addEventListener('input', () => {
   state.query = search.value
   state.selected = null
   render()
+})
+
+refresh.addEventListener('click', () => {
+  refreshSkills()
+})
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape' || document.body.classList.contains('collapsed')) return
+  if (document.activeElement === search && search.value) {
+    search.value = ''
+    state.query = ''
+    state.selected = null
+    render()
+    return
+  }
+  setPanelMode(true)
 })
 
 pet.addEventListener('pointerdown', (event) => {
@@ -356,21 +391,37 @@ async function loadSkills() {
   if (state.data.error) throw new Error(state.data.error)
 }
 
+async function refreshSkills() {
+  if (state.loading) return
+  state.loading = true
+  state.error = null
+  render()
+  try {
+    await loadSkills()
+    state.lastUpdated = Date.now()
+  } catch (error) {
+    state.error = error instanceof Error ? error.message : '发生未知错误。'
+  } finally {
+    state.loading = false
+    render()
+  }
+}
+
 async function togglePanel() {
   const willCollapse = !document.body.classList.contains('collapsed')
   if (!willCollapse) {
-    await loadSkills()
-    render()
+    await refreshSkills()
   }
   await setPanelMode(willCollapse)
 }
 
 async function main() {
-  await loadSkills()
-  render()
+  await refreshSkills()
   if (tauriInvoke) await setPanelMode(true)
+  else {
+    applyPanelAnchor('bottom-right')
+    await setPanelMode(false)
+  }
 }
 
-main().catch((error) => {
-  list.innerHTML = `<div class="item"><strong>无法加载 skills</strong><p>${escapeHtml(error.message)}</p></div>`
-})
+main()

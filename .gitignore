@@ -12,3 +12,5 @@ src-tauri/target/
 
 # Release artifacts are generated locally or by GitHub Releases.
 *.zip
+output/
+.playwright-cli/

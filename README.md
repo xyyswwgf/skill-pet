@@ -90,6 +90,7 @@ Skill Pet 只读扫描本机以下来源：
 - [Window and scan flows](documentation/flows.md)
 - [Permissions](documentation/permissions.md)
 - [Release test map](documentation/tests.md)
+- [Product roadmap](documentation/roadmap.md)
 
 ## 发布到 GitHub
 
