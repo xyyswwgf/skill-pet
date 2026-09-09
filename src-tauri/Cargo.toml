@@ -1,6 +1,6 @@
 [package]
 name = "skill-pet"
-version = "0.1.5"
+version = "0.1.6"
 description = "Floating local viewer for installed Codex skills"
 authors = ["Local developer"]
 license = "MIT"

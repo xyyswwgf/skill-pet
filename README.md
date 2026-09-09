@@ -1,29 +1,48 @@
 # Skill Pet
 
-一个 macOS 本地悬浮工具，用于查看你后续添加到 Codex 的 skills。它不执行 skill，也不会把本地 skills 或内容上传到任何服务器。
+<p align="center">
+  <img src="assets/skill-pet-icon.png" width="120" alt="Skill Pet icon">
+</p>
 
-![Skill Pet floating ball](assets/skill-pet-icon.png)
+<p align="center">
+  <strong>一个本地优先的 macOS 悬浮工具，用于查看你后来添加到 Codex 的 skills。</strong>
+</p>
 
-## 功能
+<p align="center">
+  <a href="https://github.com/xyyswwgf/skill-pet/releases"><img src="https://img.shields.io/github/v/release/xyyswwgf/skill-pet?display_name=tag&label=release" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-4b86f7" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/platform-macOS%2012%2B-4b86f7" alt="macOS 12 or later">
+  <img src="https://img.shields.io/badge/data-local%20only-4b86f7" alt="Local only">
+</p>
 
-- 扫描 `~/.codex/skills`、当前项目 skills 和用户添加的 Codex 插件缓存。
-- 排除 Codex 内置运行时和官方捆绑 skills，仅展示个人添加的内容。
-- 按插件/功能归类，按更新时间排序，展示 skill 名称与简短中文用途。
-- 蓝色 `SP` 悬浮球可拖动；点击后会依据所在屏幕位置向空余方向展开，且 SP 的屏幕位置不变。
-- 展开面板支持搜索、模块内展开和鼠标滚轮浏览。
-- 全部数据仅在本机读取；没有登录、云同步、网络请求或技能写入操作。
+Skill Pet 将个人 Codex skills 汇总为可搜索、可展开的本地清单。它不执行、不修改、不安装 skill，也不将任何本地路径或 `SKILL.md` 内容发送到网络。
 
-## 运行环境
+## Why Skill Pet
 
-当前发布目标是 **macOS 12+**。透明悬浮窗使用 macOS WebKit 私有 API，因此不支持 Mac App Store 发布。
+当安装的 skills 增多时，Codex 中可用能力并不总是容易浏览。Skill Pet 将“我后来添加了什么、它们分别做什么”变成一个随时可打开的悬浮窗口：保留一个可拖动的圆形启动球，需要时展开，无需时收起。
 
-构建源码需要：
+## Highlights
 
-- Node.js 18 或更高版本
-- Rust stable（含 `cargo`）
-- Xcode Command Line Tools：`xcode-select --install`
+- 只显示个人添加的 skills，过滤 Codex 官方运行时和内置市场内容。
+- 扫描 Codex 用户目录、共享本地目录、工作区 `.agents/skills` 与用户添加插件的缓存。
+- 根据插件和用途整理 skills；默认按更新日期排序，提供简短中文用途说明与搜索。
+- 圆形 SP 悬浮球可拖动。展开时会依据屏幕剩余空间选择方向，同时保持按钮的屏幕位置不变。
+- 展开面板支持滚轮浏览、组内展开、刷新、空状态和错误恢复。
+- 全部扫描和窗口管理均在本机完成；应用没有账号、云同步、遥测或网络客户端。
 
-## 从 GitHub 源码运行
+## Product Boundaries
+
+| Skill Pet does | Skill Pet does not |
+| --- | --- |
+| 读取本机 `SKILL.md` 元数据和说明 | 执行、编辑、安装、删除或启用 skill |
+| 显示名称、分组、用途和来源 | 修改 Codex 配置或插件状态 |
+| 管理自己的悬浮窗口位置与展开状态 | 上传内容、调用远程 API 或启动网络服务 |
+
+## Quick Start
+
+### Run from source
+
+Requirements: macOS 12+, Node.js 18+, Rust stable with `cargo`, and Xcode Command Line Tools.
 
 ```bash
 git clone https://github.com/xyyswwgf/skill-pet.git
@@ -32,9 +51,9 @@ npm install
 npm run dev
 ```
 
-首次运行会弹出一个蓝色 SP 悬浮球。拖动可以移动，单击展开或收起。
+首次启动时会出现圆形 SP 悬浮球。拖动它以移动位置，单击以展开或收起。
 
-## 构建本地 App
+### Build a local app
 
 ```bash
 npm install
@@ -42,73 +61,64 @@ npm run build
 open "src-tauri/target/release/bundle/macos/Skill Pet.app"
 ```
 
-构建后的应用在：
+构建结果为 `src-tauri/target/release/bundle/macos/Skill Pet.app`。当前构建未签名、未公证；首次打开若被 macOS 拦截，请在 Finder 中按住 Control 点击 App 后选择“打开”。
 
-```text
-src-tauri/target/release/bundle/macos/Skill Pet.app
+### Download the source package
+
+在 [GitHub Releases](https://github.com/xyyswwgf/skill-pet/releases) 下载最新的 `Skill-Pet-*-source.zip`，解压后执行上方的构建命令。源码包不包含 `node_modules` 或编译输出。
+
+## How It Works
+
+Skill Pet 只读扫描以下本机位置：
+
+- `~/.codex/skills`
+- `~/.agents/skills`
+- 当前工作区及子目录中的 `.agents/skills`
+- `~/.codex/plugins/cache` 中非 OpenAI 内置市场的插件内容
+
+展开面板或选择“刷新”时才重新扫描。当前版本不常驻监听文件系统，因此新安装的 skill 会在下次展开或刷新后出现。
+
+## Architecture
+
+| Layer | Responsibility |
+| --- | --- |
+| `web/` | 搜索、分组、中文摘要、列表交互与悬浮球交互。 |
+| `src-tauri/src/main.rs` | 受限的本地只读扫描、来源分类、窗口移动及展开位置计算。 |
+| `src-tauri/tauri.conf.json` | 本地资源、内容安全策略、透明无边框窗口与 macOS 配置。 |
+
+完整设计和边界说明见 [architecture](documentation/architecture.md)、[flows](documentation/flows.md) 与 [permissions](documentation/permissions.md)。
+
+## Privacy and Security
+
+- 没有登录、账户、数据库、遥测或云同步。
+- 没有网络客户端、远程 API 或本地 HTTP 服务（网页预览模式除外）。
+- Rust 后端只公开扫描与窗口管理命令，不提供文件写入或 skill 执行命令。
+- 透明窗口使用 macOS WebKit 私有 API，因此本项目不适合 Mac App Store 发布。
+
+请阅读 [Security Policy](SECURITY.md) 了解漏洞报告方式和发行边界。
+
+## Development
+
+```bash
+npm install
+npm run build
+node --check web/main.js
 ```
 
-在未签名和未公证的情况下，macOS 可能阻止首次打开。请在 Finder 中按住 Control 点击 App，选择“打开”；确认安全后，后续可正常双击启动。
-
-## 从源码 ZIP 运行
-
-1. 在 [GitHub Releases](https://github.com/xyyswwgf/skill-pet/releases) 下载最新的 `Skill-Pet-*-source.zip`。
-2. 解压后在终端进入项目目录。
-3. 按上面的“构建本地 App”命令执行。
-
-源码 ZIP 不含 `node_modules` 和编译输出，下载者需要在自己电脑上执行 `npm install` 和 `npm run build`。
-
-## 仅网页预览
+仅预览网页界面：
 
 ```bash
 npm run preview
 ```
 
-然后访问 `http://127.0.0.1:4174`。网页预览只用于查看列表界面；它无法模拟 macOS 透明悬浮窗、窗口拖动和按屏幕方向展开。
+随后访问 `http://127.0.0.1:4174`。网页预览无法模拟原生透明度、系统级拖动和按屏幕空间展开。
 
-## 使用与数据边界
+贡献前请阅读 [Contributing](CONTRIBUTING.md)。测试范围、已知空白和后续计划分别记录在 [tests](documentation/tests.md) 与 [roadmap](documentation/roadmap.md)。
 
-Skill Pet 只读扫描本机以下来源：
+## Releases
 
-- `~/.codex/skills`
-- 当前工作区及其子目录中的 `.agents/skills`
-- `~/.codex/plugins/cache` 中非 OpenAI 内置市场的插件
-
-它不会：
-
-- 上传 skills、SKILL.md 内容或路径
-- 启用、禁用、安装、删除或执行任何 skill
-- 修改 Codex 配置
-- 启动本地 HTTP 服务（Tauri App 本体）
-
-## 项目维护
-
-发布和维护说明见：
-
-- [Build guide](BUILD.md)
-- [Architecture](documentation/architecture.md)
-- [Window and scan flows](documentation/flows.md)
-- [Permissions](documentation/permissions.md)
-- [Release test map](documentation/tests.md)
-- [Product roadmap](documentation/roadmap.md)
-- [Interface direction](documentation/interface.md)
-
-## 发布到 GitHub
-
-当前公开仓库：<https://github.com/xyyswwgf/skill-pet>。
-
-维护者发布新版本时：
-
-```bash
-git add .
-git commit -m "Release vX.Y.Z"
-git push origin main
-git archive --format=zip --prefix=skill-pet-X.Y.Z/ --output=Skill-Pet-X.Y.Z-source.zip HEAD
-gh release create vX.Y.Z Skill-Pet-X.Y.Z-source.zip --title "Skill Pet vX.Y.Z" --generate-notes
-```
-
-正式向他人分发 `.app` 前，建议补充 Developer ID 签名和 Apple notarization。
+每个发布版本均会附带可复现的源码 ZIP。维护者发布流程在 [BUILD.md](BUILD.md) 中说明；正式面向其他用户分发 `.app` 前，应补充 Apple Developer ID 签名与 notarization。
 
 ## License
 
-[MIT](LICENSE)
+Skill Pet 采用 [MIT License](LICENSE)。
