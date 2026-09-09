@@ -1,6 +1,6 @@
 {
   "name": "skill-pet",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Local-only viewer for Codex skills with a compact pet launcher.",
   "author": {
     "name": "Local developer"
@@ -25,9 +25,9 @@
       "Interactive",
       "Read"
     ],
-    "brandColor": "#2563EB",
-    "composerIcon": "./assets/skill-pet.svg",
-    "logo": "./assets/skill-pet.svg",
+    "brandColor": "#4B86F7",
+    "composerIcon": "./assets/skill-pet-icon.png",
+    "logo": "./assets/skill-pet-icon.png",
     "defaultPrompt": [
       "Open my Skill Pet skills browser",
       "Show me installed Codex skills",
