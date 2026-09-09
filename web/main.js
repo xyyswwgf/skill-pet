@@ -247,7 +247,7 @@ function displayGroups() {
 
 function renderStats() {
   const personalTotal = state.data?.counts.personalTotal ?? state.data?.counts.personal_total ?? 0
-  const chips = [`${personalTotal} 个 skills`, '按更新时间排序']
+  const chips = [`${personalTotal} 个 skills`]
   stats.innerHTML = chips.map((chip) => `<span class="chip">${escapeHtml(chip)}</span>`).join('')
 }
 
@@ -290,7 +290,7 @@ function render() {
   refresh.textContent = state.loading ? '扫描中' : '刷新'
   if (state.loading) status.textContent = '正在扫描本机 Codex skills...'
   else if (state.error) status.textContent = '读取失败，可重新扫描。'
-  else if (state.lastUpdated) status.textContent = '仅读取本机内容；展开时会自动刷新。'
+  else if (state.lastUpdated) status.textContent = '仅读取本机内容，按更新时间排序；展开时自动刷新。'
 }
 
 list.addEventListener('click', (event) => {
@@ -419,7 +419,8 @@ async function main() {
   await refreshSkills()
   if (tauriInvoke) await setPanelMode(true)
   else {
-    applyPanelAnchor('bottom-right')
+    const previewAnchor = new URLSearchParams(window.location.search).get('anchor')
+    applyPanelAnchor(PANEL_ANCHORS.includes(previewAnchor) ? previewAnchor : 'bottom-right')
     await setPanelMode(false)
   }
 }

@@ -8,22 +8,22 @@
   </head>
   <body class="collapsed">
     <main class="shell">
-      <section class="mast">
-        <div>
+      <div class="content">
+        <section class="mast">
           <h1>已添加的 Skills</h1>
+          <div class="header-actions">
+            <div class="stats" id="stats"></div>
+            <button class="refresh" id="refresh" type="button">刷新</button>
+          </div>
           <p class="status" id="status" aria-live="polite"></p>
-        </div>
-        <div class="header-actions">
-          <div class="stats" id="stats"></div>
-          <button class="refresh" id="refresh" type="button">刷新</button>
-        </div>
-      </section>
-      <section class="toolbar">
-        <input id="search" type="search" placeholder="搜索 skill 名称、功能或插件">
-      </section>
-      <section class="layout">
-        <aside class="list" id="list"></aside>
-      </section>
+        </section>
+        <section class="toolbar">
+          <input id="search" type="search" placeholder="搜索名称、用途或插件">
+        </section>
+        <section class="layout">
+          <aside class="list" id="list"></aside>
+        </section>
+      </div>
     </main>
     <button class="pet" id="pet" type="button" aria-label="展开或收起 Skill Pet">
       <span class="pet-face">SP</span>
