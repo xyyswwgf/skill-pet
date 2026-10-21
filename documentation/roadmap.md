@@ -4,7 +4,7 @@
 
 - A local-only, read-only macOS utility for skills added to Codex.
 - A movable floating ball that expands inward from any screen corner without hiding panel content.
-- Search, grouped browsing, inline skill names, concise Chinese descriptions, refresh feedback, empty/error states, and keyboard collapse.
+- Search, grouped browsing, inline skill names, concise English descriptions, refresh feedback, empty/error states, and keyboard collapse.
 
 ## Next Priorities
 
@@ -16,4 +16,4 @@
 | P1 | Add fixture-based Rust tests for marketplace classification and corner-placement calculations. | Codex layout changes and multi-monitor regressions are caught before release. |
 | P1 | Add a macOS visual smoke test for transparent collapse, all four anchors, wheel scrolling, and keyboard controls. | Native WebKit behavior is verified instead of assumed. |
 | P2 | Sign and notarize release builds, then publish a `.dmg` alongside source ZIP files. | Other users can install the App with fewer macOS security prompts. |
-| P2 | Add optional language selection for Chinese/English UI summaries. | The viewer can be shared beyond the current Chinese-first workflow. |
+| P2 | Add optional localization support for additional languages. | The viewer can serve people who prefer other languages while keeping English as the default. |
