@@ -8,7 +8,7 @@ Skill Pet is a macOS-only, local-only Tauri utility for viewing skills that a us
 
 | Component | Responsibility |
 | --- | --- |
-| `web/` | Search, grouping, Chinese summaries, inline skill details, floating-ball interaction. |
+| `web/` | Search, grouping, English summaries, inline skill details, floating-ball interaction. |
 | `src-tauri/src/main.rs` | Read-only filesystem scan, personal-source classification, window movement, transparent-window setup, and directional panel placement. |
 | `src-tauri/tauri.conf.json` | Local asset loading, CSP, undecorated always-on-top window, and macOS private transparent-window support. |
 
