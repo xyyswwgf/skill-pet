@@ -6,7 +6,7 @@
 | --- | --- |
 | Actor | Local macOS user. |
 | Precondition | Codex skills or plugin cache exist on the same machine. |
-| Success outcome | Personal skills are grouped, sorted by update time, and shown with concise Chinese descriptions. |
+| Success outcome | Personal skills are grouped, sorted by update time, and shown with concise English descriptions. |
 
 1. The WebView invokes `discover_skills`.
 2. Rust scans known local roots with directory and file-size limits.
@@ -33,7 +33,7 @@ Trust boundary: WebView to Rust command, then Rust to local filesystem. There is
 ## Refresh The Inventory
 
 1. Opening the panel scans the local skill roots again.
-2. The user can select “刷新” to trigger the same read-only scan without collapsing the panel.
+2. The user can select “Refresh” to trigger the same read-only scan without collapsing the panel.
 3. The interface displays a scanning state, an actionable retry state on failure, and an explicit empty state when no personal skills match.
 
 Trust boundary: WebView to local window-management commands. No filesystem or network side effect occurs in this flow.
